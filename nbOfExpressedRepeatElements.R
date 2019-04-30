@@ -8,8 +8,6 @@
 
 library(data.table) 
 library(rtracklayer)
-#library(ggpubr)
-#library(rlist)
 library(optparse)
 library(ggplot2)
 
