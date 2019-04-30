@@ -61,7 +61,6 @@ find_condition <- function(cond, sam){
 give_TRC <- function(file, annotation, chrm_to_remove, isBED){
   # This function gives Total Read Count 
   # for genes or repeats depending of the file and annotation given.
-  print(file)
   count = read.table(file, header = T)
   nb_input = dim(count)[1]
   if (!is.null(chrm_to_remove)){
@@ -73,9 +72,6 @@ give_TRC <- function(file, annotation, chrm_to_remove, isBED){
     count = count[!(count$Geneid %in% to_remove),]
   }
   nb_output = dim(count)[1]
-  print(paste0(nb_input - nb_output, " elements removes from ", file))
-  print(sum(as.numeric(count[,length(count)])))
-  print(dim(count)[1])
   total = sum(count[,length(count)])/1000000
   return(total)
 }
@@ -116,12 +112,8 @@ give_tab <- function(sams,list_elements, lim){
   # each sample
   df = data.frame(sample = samples, count_element = NA , condition = NA)
   for (s in 1:length(sams)){
-    print(sams[[s]]@name)
     res = sams[[s]]@result
-    print(dim(res))
-    print(dim(res[res$Geneid %in% list_elements,]))
     res = res[res[,length(res)] > lim ,]
-    
     res = res[res$Geneid %in% list_elements,]
     nb = dim(res)[1]
     df[df$sample == sams[[s]]@name,]$count_element = nb
@@ -143,9 +135,8 @@ giveGraph <- function(sams, pdffile, class_list, is_boxplot){
     for (l in 1:length(list_lim)){
       lim = list_lim[l]
       tab = give_tab(sams,list_of_elements, lim)
-      print(tab)
+
       if (!isTRUE(is_boxplot)){
-        
         g <-  ggplot(tab, aes(x=tab$sample, y=tab$count_element, color=tab$condition)) +
           geom_point() + 
           xlab("SAMPLES") + ylab(paste0("Number of ", type_of_element, " expressed elements")) + ggtitle(paste0("FPKM >",lim)) +
@@ -268,7 +259,6 @@ list_of_samples = vector("list", length(samples))
 
 for (j in 1:length(samples)){
   current_sample = samples[j]
-  print(current_sample)
   current_sample_object <- new("sample", 
                              name = current_sample,
                              condition = find_condition(conditions, current_sample),
