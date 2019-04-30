@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #This code is used to analyze the number of expressed repeat elements. 
 #It uses the gene annotation to filter the intergenic regions. 
 #If the gene count are supplied, it will normalized using the total read counts of 
