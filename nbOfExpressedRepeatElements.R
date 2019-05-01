@@ -2,9 +2,9 @@
 
 #This code is used to analyze the number of expressed repeat elements. 
 #It uses the gene annotation to filter the intergenic regions. 
-#If the gene count are supplied, it will normalized using the total read counts of 
-#the genes, else using the total read counts of the repeats.
-#If lnRNA annotation are supplied, it will remove repeat elements overlapping these elements.
+#If gene count files are supplied, it will normalize using the total read counts of 
+#genes, else using the total read counts of repeats.
+#If lnRNA annotation is supplied, it will remove repeat elements overlapping those elements.
 #It will print a graph for each class of repeat elements and for each sample using a cutoff
 #for the expression
 
@@ -31,7 +31,7 @@ checkRequiredArguments <- function(opts, parser){
 
 filter_file <- function(dir, sam, pat){ 
   # This function will return the path of a file, using
-  # of the name of the sample and the file extention
+  # the name of the sample and the file extention
   pattern1 = paste0("*",sam,"*")
   pattern2 = paste0(pat,"$")
   pattern = paste0(pattern1,pattern2)
@@ -78,11 +78,11 @@ give_TRC <- function(file, annotation, chrm_to_remove, isBED){
 
 giveResult <- function(sam, repeat_anno, gene_anno, lnRNA_anno, chrm_to_remove){
   # This function process different steps
-  # 1. We are exlcuding the gene coding regions 
+  # 1. It excludes the gene coding regions 
   # (ie we are performing the analysis only on intergenic regions)
-  # 2. If lnRNA annotation is furnished, we are exlcluding elements overlapping lnRNA.
-  # 3. If we ask to remove a particular chromosome, we are excluding it
-  # 4. We normalize the expression by total read count and the width of the element.
+  # 2. If lnRNA annotation is furnished, it excludes elements overlapping lnRNA.
+  # 3. If we ask to remove a particular chromosome, it will exclude it.
+  # 4. It normalizes the expression by total read count and the width of the element (FPKM).
   gene_anno = reduce(gene_anno)
   gene_anno = gene_anno + 10000
   
@@ -125,7 +125,7 @@ give_tab <- function(sams,list_elements, lim){
 
 
 giveGraph <- function(sams, pdffile, class_list, is_boxplot){
-  #This function save a graph (barplot or boxplot).
+  #This function saves a graph (barplot or boxplot).
   
   pdf(pdffile)
   for (c in 1:length(class_list)){
@@ -233,7 +233,7 @@ if (!is.null(conditions)){
 
 ##################
 
-## 1. Load the annotations
+## 1. Loading the annotations
 is_bed = grepl(".bed", gene_annotation)
 repeat_annotation = import(repeat_annotation) 
 gene_annotation = import(gene_annotation)
@@ -243,7 +243,7 @@ if (!is.null(lnRNA_annotation)){
 }
 
 
-## 2. create class sample with info for each sample
+## 2. creating a sample class containing the information for each sample
 
 setClass("sample", slots=list(name="character", 
                               condition="character",
@@ -253,7 +253,7 @@ setClass("sample", slots=list(name="character",
                               result="data.frame"))
 
 
-## 3. list of sample objects and enter the information inside
+## 3. listing the sample objects and adding information
 
 list_of_samples = vector("list", length(samples))
 
